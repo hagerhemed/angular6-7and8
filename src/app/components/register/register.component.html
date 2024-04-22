@@ -1,0 +1,47 @@
+<form [formGroup]="userRegisterForm"  (submit)="register()">
+  <!-- <h1>{{userRegisterForm.value | json}}</h1> -->
+  <h1>{{name?.errors| json}}</h1>
+    <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Name</label>
+        <input type="text" name="name" formControlName="name" class="form-control" id="exampleInputPassword1">
+        @if(name?.touched && name?.invalid){
+          <div class="text-danger">
+            @if(name?.errors?.['required']){
+            <p>Name is required</p>
+          }
+          @if(name?.errors?.['pattern']){
+            <p>Name must be between 3 to 10 carachters.</p>
+          }
+          </div>
+
+        }
+
+      </div>
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Email address</label>
+      <input type="email"  name="email" formControlName="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+      <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputPassword1" class="form-label">Password</label>
+      <input type="password"  name="password" formControlName="password" class="form-control" id="exampleInputPassword1">
+    </div>
+    <div formGroupName="address">
+    <div class="mb-3">
+      <label for="exampleInputPassword1" class="form-label">City</label>
+      <input type="text"  name="city" formControlName="city" class="form-control" id="exampleInputPassword1">
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputPassword1" class="form-label">Street</label>
+      <input type="text"  name="street" formControlName="street" class="form-control" id="exampleInputPassword1">
+    </div>
+    <div formArrayName="phoneNums">
+    <div class="mb-3" *ngFor="let ph of phones.controls; let i=index">
+      <label for="exampleInputPassword1" class="form-label">#{{i+1}}Phone Number</label>
+      <input type="text"  name="Phone" [formControlName]="i" class="form-control" id="exampleInputPassword1">
+    </div>
+  </div>
+  <button class="btn btn-success my-5" (click)="addNewPhone">+</button>
+  </div>
+    <button type="submit" [disabled]="userRegisterForm.invalid" class="btn btn-primary">Submit</button>
+  </form>

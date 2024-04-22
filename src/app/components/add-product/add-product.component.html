@@ -1,0 +1,47 @@
+<h1>{{prdName.errors |json}}</h1>
+<form (submit)="addNewProduct()" #addPrdForm="ngForm">
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Name:</label>
+    <input type="text" [(ngModel)]="newProduct.name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+    name="name"
+    #prdName="ngModel"
+    required
+    pattern="^[a-zA-Z]{3,15}$">
+    @if(prdName.invalid && prdName.touched){
+      <div class="text-danger">
+        @if(prdName.errors?.['required']){
+          <p>Name is required</p>
+
+        }
+        @if(prdName.errors?.['pattern']){
+        <p>Name must be at least 3 characters</p>
+        }
+      </div>
+    }
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Quantity:</label>
+    <input type="number" [(ngModel)]="newProduct.quantity" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+    name="quantity">
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Image:</label>
+    <input type="file" [(ngModel)]="newProduct.imgUrl" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+    name="imgUrl">
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">Price:</label>
+    <input type="number" [(ngModel)]="newProduct.price" class="form-control" id="exampleInputPassword1"
+    name="price">
+  </div>
+  <div>
+    <label>Categories</label>
+    <select class="form-select" aria-label="Default select example" [(ngModel)]="newProduct.catId"
+    name="catId">
+      @for(cat of categories; track cat.id){
+        <option [value]="cat.id">{{cat.name}}</option>
+      }
+    </select>
+  </div>
+  <button type="submit" class="btn btn-primary" [disabled]="addPrdForm.invalid">Submit</button>
+</form>
